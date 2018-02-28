@@ -1,0 +1,7 @@
+[package]
+name = "hf_heg"
+version = "0.1.0"
+authors = ["Jeremy McMinis <jmcminis@gmail.com>"]
+
+[dependencies]
+rand = "*"
