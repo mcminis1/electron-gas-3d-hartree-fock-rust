@@ -1,5 +1,3 @@
-extern crate rand;
-
 use std::env;
 use std::vec::Vec;
 use std::collections::HashMap;
