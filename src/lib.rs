@@ -49,7 +49,7 @@ fn build_occupations(r_s: f64, k2_max: f64) -> Occupations {
     }
 }
 
-fn get_energy(occ: &Occupations) -> (f64,f64,f64) {
+fn get_energy(occ: &Occupations) -> f64 {
     let mut ke: f64 = 0.0;
     let mut ee: f64 = 0.0;
     for index_0 in 0..occ.n_electrons {
@@ -63,11 +63,11 @@ fn get_energy(occ: &Occupations) -> (f64,f64,f64) {
             ee += ((dx2+dy2+dz2) as f64).powi(-1);
         }
     }
-    (ke*occ.k_pf as f64, ee*occ.ee_pf as f64, (ke*occ.k_pf+ee*occ.ee_pf) as f64)
+    (ke*occ.k_pf+ee*occ.ee_pf) as f64
 }
 
 #[no_mangle]
-pub extern fn get_heg_info(r_s: f64, k2_max: f64) -> (u32, (f64,f64,f64)) {
+pub extern fn get_heg_info(r_s: f64, k2_max: f64) -> f64 {
     let electrons = build_occupations(r_s,k2_max);
-    (electrons.n_electrons, get_energy(&electrons))
+    get_energy(&electrons)
 }
