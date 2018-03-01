@@ -1,11 +1,8 @@
-use std::env;
 use std::vec::Vec;
 use std::collections::HashMap;
 use std::f64::consts::PI;
-// use rand::Rng;
 
 struct Occupations {
-    kf: f64,
     n_electrons: u32,
     k_pf: f64,
     ee_pf: f64,
@@ -43,10 +40,8 @@ fn build_occupations(r_s: f64, k2_max: f64) -> Occupations {
 
     let k_pf = (8.0*PI)*length.powi(-2) as f64;
     let ee_pf = -2.0/(length*PI);
-    let kf = (3.0*PI.powi(2)*n_electrons as f64/volume).powf(1.0/3.0);
 
     Occupations{
-        kf:kf,
         n_electrons: n_electrons,
         k_pf: k_pf/n_electrons as f64,
         ee_pf: ee_pf/n_electrons as f64,
@@ -71,22 +66,8 @@ fn get_energy(occ: &Occupations) -> (f64,f64,f64) {
     (ke*occ.k_pf as f64, ee*occ.ee_pf as f64, (ke*occ.k_pf+ee*occ.ee_pf) as f64)
 }
 
-// fn scatter_electrons(occ: &Occupations) {
-
-// }
-
 #[no_mangle]
 pub extern fn get_heg_info(r_s: f64, k2_max: f64) -> (u32, (f64,f64,f64)) {
     let electrons = build_occupations(r_s,k2_max);
-
-    // println!("r_s: {}, k_f: {}", r_s, electrons.kf);
-    // let ke_ry =0.6*electrons.kf.powi(2);
-    // let ee_ry = -1.5*electrons.kf/PI;
-    // let e_ry = ke_ry + ee_ry;
-    // println!("Ry: {} + {} = {}", ke_ry,ee_ry,e_ry);
-
-
-    // println!("n_electrons: {}", electrons.n_electrons);
-    // println!("Energy: {:?}", get_energy(&electrons));
     (electrons.n_electrons, get_energy(&electrons))
 }
