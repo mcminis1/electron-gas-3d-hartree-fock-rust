@@ -38,13 +38,13 @@ fn build_occupations(r_s: f64, k2_max: f64) -> Occupations {
     let volume = 4.0/3.0*PI*(n_electrons as f64)*r_s.powi(3);
     let length = volume.powf(1.0/3.0);
 
-    let k_pf = (8.0*PI)*length.powi(-2) as f64;
-    let ee_pf = -2.0/(length*PI);
+    let k_pf: f64 = (8.0*PI)*length.powi(-2)/(n_electrons as f64) as f64;
+    let ee_pf: f64 = -2.0/(length*PI)/(n_electrons as f64);
 
     Occupations{
         n_electrons: n_electrons,
-        k_pf: k_pf/n_electrons as f64,
-        ee_pf: ee_pf/n_electrons as f64,
+        k_pf: k_pf,
+        ee_pf: ee_pf,
         occ: occ
     }
 }
@@ -63,11 +63,12 @@ fn get_energy(occ: &Occupations) -> f64 {
             ee += ((dx2+dy2+dz2) as f64).powi(-1);
         }
     }
-    (ke*occ.k_pf+ee*occ.ee_pf) as f64
+    ke*occ.k_pf + ee*occ.ee_pf as f64
 }
 
 #[no_mangle]
-pub extern fn get_heg_info(r_s: f64, k2_max: f64) -> f64 {
+pub extern fn get_heg_info(r_s: f64, k2_max: f64) -> String {
     let electrons = build_occupations(r_s,k2_max);
-    get_energy(&electrons)
+    let energy = get_energy(&electrons);
+    return energy.to_string();
 }
