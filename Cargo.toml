@@ -3,4 +3,7 @@ name = "electron-gas-3d-hartree-fock-rust"
 version = "0.1.0"
 authors = ["Jeremy McMinis <jmcminis@gmail.com>"]
 
+[lib]
+crate-type = ["cdylib"]
+
 [dependencies]

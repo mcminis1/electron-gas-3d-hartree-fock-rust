@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      fetch('electron-gas-3d-hartree-fock-rust.gc.wasm')
+        .then(r => r.arrayBuffer())
+        .then(r => WebAssembly.instantiate(r))
+        .then(wasm_module => {
+            alert(`HEG Energy: ${wasm_module.instance.exports.get_heg_info(2.0,100.0)}`);
+        });
+    </script>
+  </head>
+  <body>
+    
+  </body>
+</html>
