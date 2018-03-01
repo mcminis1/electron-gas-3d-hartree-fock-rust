@@ -13,25 +13,28 @@
             console.log(arg);
           },
           "env": {
-              pow: Math.pow
+              "powf": Math.pow
           }
         }
       };
 
-      WebAssembly.instantiateStreaming(fetch('electron_gas_3d_hartree_fock_rust.wasm'))
-      .then(obj => console.log(`HEG energy ${obj.instance.exports.get_heg_info(2.0,100.0)}`));
-      // // is the imported Object important?
-      // WebAssembly.instantiateStreaming(fetch('electron_gas_3d_hartree_fock_rust.wasm'), importObject)
+      // WebAssembly.instantiateStreaming(fetch('electron_gas_3d_hartree_fock_rust.wasm'))
       // .then(obj => console.log(`HEG energy ${obj.instance.exports.get_heg_info(2.0,100.0)}`));
+      // is the imported Object important?
+      WebAssembly.instantiateStreaming(fetch('electron_gas_3d_hartree_fock_rust.wasm'), importObject)
+      .then(obj => console.log(`HEG energy ${obj.instance.exports.get_heg_info(2.0,100.0)}`));
 
-      // // do it the ols way, static file
-      // var importObject = { imports: { imported_func: arg => console.log(arg) } };
+      // // // do it the ols way, static file
+      // // var importObject = { imports: { imported_func: arg => console.log(arg) } };
       // fetch('electron-gas-3d-hartree-fock-rust.wasm')
       //   .then(r => r.arrayBuffer())
       //   .then(r => WebAssembly.instantiate(r))
-      //   .then(wasm_module => {
-      //       alert(`HEG Energy: ${wasm_module.instance.exports.get_heg_info(2.0,100.0)}`);
-        // });
+      //   .then(module=> {
+      //     console.log(instance.exports.get_heg_info);
+      //   })
+      //   .then( instance => {
+      //     console.log(instance.exports.get_heg_info(2.0,100.0));
+      //   });
     </script>
       </head>
   <body>
